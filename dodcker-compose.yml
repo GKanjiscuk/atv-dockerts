@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # serviço NodeTS
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      # Passamos a URI do banco por variável de ambiente para o contêiner
+      - MONGO_URI=mongodb://mongo:27017/crud_db
+    depends_on:
+      - mongo
+
+  # O banco de dados MongoDB
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      # Isso salva os dados do banco no seu PC para não perder se o contêiner reiniciar
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
